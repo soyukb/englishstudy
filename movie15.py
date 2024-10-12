@@ -114,11 +114,26 @@ for i in range(1, max_index + 1):
 
             # 無音クリップの再生速度を2倍にする
             silence_2x_clip = silence_clip.fx(vfx.speedx, 2)
+            
+            # 15文字ごとに改行を挿入する関数
+            def split_text_by_length(text, length=10):
+                return '\n'.join([text[i:i+length] for i in range(0, len(text), length)])
+            
+            # 10単語ごとに改行を挿入する関数
+            def split_text_by_words(text, num_words=10):
+                words = text.split()  # テキストを単語ごとに分割
+                return '\n'.join([' '.join(words[i:i+num_words]) for i in range(0, len(words), num_words)])
 
             # エクセルファイルから対応するテキストを取得
             en_text = str(df.iloc[i - 1, 0])
             jp_text = str(df.iloc[i - 1, 1])
-
+            
+            # 日本語テキストを15文字ごとに改行
+            jp_text = split_text_by_length(jp_text, 15)
+            
+            # 英語テキストを10単語ごとに改行
+            en_text = split_text_by_words(en_text, 10)
+            
             # 使用するフォントパスを指定
             font_path = r"C:/Windows/Fonts/msgothic.ttc"
 
